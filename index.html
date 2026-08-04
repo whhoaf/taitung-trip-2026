@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>高雄 · 台東 · 綠島 ｜ 2026年8月16–21日</title>
+<style>
+  :root{
+    --ink:#1b2733; --ink-2:#4a5b6d; --ink-3:#7b8b9c;
+    --bg:#f6f4ef; --card:#fffefb; --line:#e4ded2;
+    --sea:#2b6a7f; --sea-soft:#e6f0f3;
+    --sun:#c2703a; --sun-soft:#fbeee3;
+    --flag:#b3412f; --flag-soft:#fbe9e5;
+    --ok:#3f7a4d; --ok-soft:#e9f3ea;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#eef2f5; --ink-2:#b3c0cc; --ink-3:#8494a3;
+      --bg:#12181d; --card:#1b232a; --line:#2b3640;
+      --sea:#7fc4d8; --sea-soft:#1c2e35;
+      --sun:#e2a071; --sun-soft:#302319;
+      --flag:#f0917f; --flag-soft:#33201c;
+      --ok:#8cc79a; --ok-soft:#1d2a20;
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei","Segoe UI",Helvetica,sans-serif;
+    padding:0 0 56px;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px}
+
+  header{background:linear-gradient(150deg,#2b6a7f 0%,#1f4f61 60%,#173d4c 100%);color:#fff;padding:30px 0 26px;margin-bottom:20px}
+  header h1{margin:0 0 8px;font-size:26px;line-height:1.3;letter-spacing:1px;font-weight:700}
+  header .dates{display:inline-block;font-size:13.5px;font-weight:600;letter-spacing:.5px;background:rgba(255,255,255,.15);padding:5px 12px;border-radius:99px}
+  header .who{margin:12px 0 0;font-size:13.5px;opacity:.82;line-height:1.6}
+
+  h2{font-size:13px;letter-spacing:2px;color:var(--ink-3);margin:30px 0 10px;font-weight:700}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:12px}
+
+  .flight{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .flight:last-child{border-bottom:0;padding-bottom:0}
+  .flight:first-child{padding-top:0}
+  .fno{font-weight:700;font-size:12.5px;color:var(--sea);background:var(--sea-soft);padding:4px 8px;border-radius:7px;white-space:nowrap}
+  .froute{flex:1;min-width:0}
+  .froute b{display:block;font-size:15px;font-weight:600}
+  .froute span{display:block;font-size:12.5px;color:var(--ink-3);margin-top:2px;line-height:1.5}
+  .ftime{text-align:right;white-space:nowrap}
+  .ftime b{display:block;font-size:15px;font-weight:650}
+  .ftime span{display:block;font-size:11.5px;color:var(--ink-3)}
+
+  .nights{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  .night{flex:1 0 auto;min-width:86px;text-align:center;background:var(--sea-soft);border-radius:10px;padding:9px 6px}
+  .night.todo{background:var(--flag-soft)}
+  .night b{display:block;font-size:11px;color:var(--ink-3);font-weight:600}
+  .night span{display:block;font-size:13px;font-weight:650;color:var(--sea);margin-top:3px}
+  .night.todo span{color:var(--flag)}
+
+  .day{margin-bottom:14px}
+  .dayhead{display:flex;align-items:baseline;gap:9px;margin:0 0 8px;padding:0 2px}
+  .daynum{font-size:24px;font-weight:700;line-height:1}
+  .daymon{font-size:13px;color:var(--ink-3);font-weight:600}
+  .daytag{margin-left:auto;font-size:12px;font-weight:650;color:var(--sun);background:var(--sun-soft);padding:3px 10px;border-radius:99px}
+
+  .slot{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .slot:last-child{border-bottom:0;padding-bottom:2px}
+  .slot:first-child{padding-top:2px}
+  .when{flex:0 0 72px;font-size:12px;font-weight:650;color:var(--ink-3);padding-top:3px}
+  .what{flex:1;min-width:0}
+  .what b{font-weight:600;font-size:15.5px;display:block;line-height:1.5}
+  .what .sub{font-size:13.5px;color:var(--ink-2);margin-top:3px;display:block;line-height:1.6}
+  .empty{color:var(--ink-3);font-size:14.5px}
+
+  .pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;padding:2px 8px;border-radius:5px;margin-top:6px}
+  .pill.book{color:var(--sun);background:var(--sun-soft)}
+  .pill.done{color:var(--ok);background:var(--ok-soft)}
+  .pill.check{color:var(--flag);background:var(--flag-soft)}
+
+  .warn{background:var(--flag-soft);border-left:3px solid var(--flag);border-radius:0 9px 9px 0;padding:10px 13px;margin-top:8px}
+  .warn b{color:var(--flag);font-size:12.5px;letter-spacing:.5px;display:block;margin-bottom:3px}
+  .warn p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+
+  .alert{background:var(--flag-soft);border:1px solid var(--flag);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+  .alert b{display:block;color:var(--flag);font-size:15px;font-weight:700;margin-bottom:4px}
+  .alert p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.7}
+
+  ul.todo{margin:0;padding:0;list-style:none}
+  ul.todo li{padding:9px 0 9px 26px;border-bottom:1px solid var(--line);font-size:14.5px;position:relative}
+  ul.todo li:last-child{border-bottom:0}
+  ul.todo li::before{content:"";position:absolute;left:0;top:15px;width:13px;height:13px;border:1.5px solid var(--ink-3);border-radius:4px}
+  ul.todo li i{display:block;font-size:12.5px;color:var(--ink-3);font-style:normal;margin-top:2px}
+
+  table.cost{width:100%;border-collapse:collapse;font-size:14px}
+  table.cost th{text-align:left;font-size:11.5px;letter-spacing:1px;color:var(--ink-3);padding:0 0 8px;font-weight:700}
+  table.cost td{padding:8px 0;border-top:1px solid var(--line)}
+  table.cost td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  table.cost tr.tot td{font-weight:700;border-top:2px solid var(--ink-3)}
+  table.cost td small{color:var(--ink-3);display:block;font-size:12px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);line-height:1.8}
+  footer b{color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>高雄 · 台東 · 綠島</h1>
+    <span class="dates">2026年8月16日（日）— 8月21日（五）· 五晚</span>
+    <p class="who">Alfred · Xenia · 兩位長輩 · 共四人</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <h2>航班</h2>
+  <div class="card">
+    <div class="flight">
+      <span class="fno">NX660</span>
+      <span class="froute"><b>澳門 → 高雄小港</b><span>8月16日（日）· 抵達第一航廈 · 每人一件託運行李 ≤32kg</span></span>
+      <span class="ftime"><b>16:35</b><span>→ 18:05</span></span>
+    </div>
+    <div class="flight">
+      <span class="fno">NX659</span>
+      <span class="froute"><b>高雄小港 → 澳門</b><span>8月21日（五）· 高雄櫃檯提早一小時關閉</span></span>
+      <span class="ftime"><b>19:05</b><span>→ 20:30</span></span>
+    </div>
+    <p style="margin:12px 0 0;font-size:13px;color:var(--ink-3)">澳門航空 · 四人 · MOP 9,176 · 由 Xenia 付款。免費改期，退票每人 MOP 600。</p>
+  </div>
+
+  <h2>住宿</h2>
+  <div class="nights">
+    <div class="night"><b>16 日</b><span>高雄</span></div>
+    <div class="night"><b>17 一</b><span>知本</span></div>
+    <div class="night"><b>18 二</b><span>知本</span></div>
+    <div class="night"><b>19 三</b><span>綠島</span></div>
+    <div class="night"><b>20 四</b><span>台東市</span></div>
+  </div>
+
+  <h2>每日行程</h2>
+
+  <div class="day card">
+    <div class="dayhead"><span class="daynum">16</span><span class="daymon">8月 · 星期日</span><span class="daytag">高雄</span></div>
+    <div class="slot"><span class="when">16:35</span><span class="what"><b>NX660　澳門 → 高雄</b><span class="sub">18:05 抵達，約 14:30 到機場報到。</span><span class="pill done">已預訂</span></span></div>
+    <div class="slot"><span class="when">傍晚</span><span class="what"><b>前往帕鉑舍旅高雄站前館</b><span class="sub">酒店在高雄車站旁。機場捷運紅線可直達市區。已訂兩間房。</span><span class="pill done">已預訂</span></span></div>
+    <div class="slot"><span class="when">晚上</span><span class="what"><span class="empty">未定 — 晚餐、夜市</span></span></div>
+  </div>
+
+  <div class="day card">
+    <div class="dayhead"><span class="daynum">17</span><span class="daymon">8月 · 星期一</span><span class="daytag">前往台東</span></div>
+    <div class="slot"><span class="when">清晨</span><span class="what"><b>火車　高雄 → 台東</b><span class="sub">必須在 10:00 前到達台東取車，等於要搭大約 07:00 的班次。車票尚未訂。</span><span class="pill book">待預訂</span>
+      <div class="warn"><b>時間很緊</b><p>取車時間是台東門市 10:00，但當天早上人還在高雄。班次要挑早，或者跟 IWS 改約取車時間。</p></div>
+    </span></div>
+    <div class="slot"><span class="when">10:00</span><span class="what"><b>取車　IWS 愛旺租車</b><span class="sub">Nissan Kicks 或同級 SUV。台東市新站路221號（近台東車站），電話 089-222317，營業 08:00–20:00。</span><span class="pill done">已付款</span></span></div>
+    <div class="slot"><span class="when">15:00 後</span><span class="what"><b>入住知本芙儷渡假酒店</b><span class="sub">台東市大順路33號，在知本，距台東市區約15公里。兩間房，含8月18及19日早餐。</span><span class="pill done">已預訂</span></span></div>
+  </div>
+
+  <div class="day card">
+    <div class="dayhead"><span class="daynum">18</span><span class="daymon">8月 · 星期二</span><span class="daytag">台東</span></div>
+    <div class="slot"><span class="when">全日</span><span class="what"><span class="empty">未定 — 全日有車可用</span></span></div>
+  </div>
+
+  <div class="day card">
+    <div class="dayhead"><span class="daynum">19</span><span class="daymon">8月 · 星期三</span><span class="daytag">前往綠島</span></div>
+    <div class="slot"><span class="when">10:00 前</span><span class="what"><b>退房並還車</b><span class="sub">退房時間是 11:00，但還車是 10:00，而知本在台東市區以南約15公里。要提早出門。</span><span class="pill check">時間有衝突</span></span></div>
+    <div class="slot"><span class="when">上午</span><span class="what"><b>船　富岡漁港 → 綠島</b><span class="sub">包含在 Klook 綠島二天一夜套裝內。富岡漁港在台東車站以北約10公里，航程約50分鐘。</span><span class="pill done">已付款</span></span></div>
+    <div class="slot"><span class="when">下午起</span><span class="what"><b>綠島自由行 第一天</b><span class="sub">套裝含船票、機車、浮潛、住宿（2–3人房兩間）、BBQ 晚餐。</span><span class="pill done">已付款</span></span></div>
+  </div>
+
+  <div class="day card">
+    <div class="dayhead"><span class="daynum">20</span><span class="daymon">8月 · 星期四</span><span class="daytag">綠島 → 台東 → 鹿野</span></div>
+    <div class="slot"><span class="when">上午</span><span class="what"><b>綠島自由行 第二天</b><span class="pill done">已付款</span></span></div>
+    <div class="slot"><span class="when">中午</span><span class="what"><b>船　綠島 → 富岡漁港</b><span class="sub">回程時間由套裝安排，要先確認。</span><span class="pill check">需先確認</span></span></div>
+    <div class="slot"><span class="when">下午</span><span class="what"><b>熱氣球專車出發　台東 → 鹿野高台</b><span class="sub">方案三，四人：下午出發、晚間返程。司機會在前一天聯絡。</span><span class="pill done">已確認</span>
+    </span></div>
+    <div class="slot"><span class="when">傍晚</span><span class="what"><b>熱氣球繫留體驗＋無人機煙火表演</b><span class="pill check">日期要查</span>
+    </span></div>
+    <div class="slot"><span class="when">晚上</span><span class="what"><b>台東南豐鐵花棧</b><span class="sub">台東市中華路一段，兩間房一晚。8月16日扣款，8月17日23:59前可免費取消。</span><span class="pill done">已預訂</span></span></div>
+  </div>
+
+  <div class="day card">
+    <div class="dayhead"><span class="daynum">21</span><span class="daymon">8月 · 星期五</span><span class="daytag">回程</span></div>
+    <div class="slot"><span class="when">上午</span><span class="what"><b>火車　台東 → 高雄</b><span class="sub">8月19日已還車，這段沒有車。車程約 2.5–3.5 小時，視班次而定。尚未訂票。</span><span class="pill book">待預訂</span></span></div>
+    <div class="slot"><span class="when">約 17:00</span><span class="what"><b>抵達高雄小港機場</b>
+      <div class="warn"><b>當天很趕</b><p>火車加上前往機場的接駁，全部要在 19:05 起飛前完成，而高雄的櫃檯提早一小時關閉。訂票時要留足夠餘裕，不要挑剛好趕得上的那一班。</p></div>
+    </span></div>
+    <div class="slot"><span class="when">19:05</span><span class="what"><b>NX659　高雄 → 澳門</b><span class="sub">20:30 抵達澳門。</span><span class="pill done">已預訂</span></span></div>
+  </div>
+
+  <h2>已付款項</h2>
+  <div class="card">
+    <table class="cost">
+      <tr><th>項目</th><th style="text-align:right">金額</th><th style="text-align:right">付款人</th></tr>
+      <tr><td>帕鉑舍旅高雄站前館 · 兩間房<small>8月16–17日</small></td><td class="n">HK$848.23</td><td class="n">Alfred</td></tr>
+      <tr><td>知本芙儷渡假酒店 · 兩間房<small>8月17–19日</small></td><td class="n">HK$2,857.37</td><td class="n">Alfred</td></tr>
+      <tr><td>租車 · 兩天<small>Klook </small></td><td class="n">HK$849.00</td><td class="n">Alfred</td></tr>
+      <tr><td>綠島二天一夜套裝 · 兩間<small>Klook 綠島套裝</small></td><td class="n">HK$3,968.00</td><td class="n">Alfred</td></tr>
+      <tr><td>台東南豐鐵花棧 · 兩間房<small>8月20–21日</small></td><td class="n">HK$1,561.22</td><td class="n">Alfred</td></tr>
+      <tr><td>熱氣球專車接送 · 四人<small>Klook 專車訂單 · 金額未見於郵件</small></td><td class="n">待補</td><td class="n">Alfred</td></tr>
+      <tr><td>機票 · 四人<small>澳門航空 </small></td><td class="n">MOP 9,176</td><td class="n">Xenia</td></tr>
+      <tr class="tot"><td>四人平均每人約<small>未含熱氣球專車費用</small></td><td class="n">HK$4,746</td><td class="n"></td></tr>
+    </table>
+    <p style="margin:12px 0 0;font-size:13px;color:var(--ink-3)">實際分帳以 Excel 檔的 Settle Up 分頁為準，那裡按每一筆的分攤人數計算。</p>
+  </div>
+
+  <h2>尚未預訂</h2>
+  <div class="card">
+    <ul class="todo">
+      <li>火車　高雄 → 台東 <i>8月17日 · 要趕在 10:00 取車前到</i></li>
+      <li>火車　台東 → 高雄 <i>8月21日 · 要遠早於 19:05</i></li>
+    </ul>
+    <p style="margin:12px 0 0;font-size:13.5px;color:var(--ink-3)">其餘住宿、船票、機車、活動都已訂妥或已付款。</p>
+  </div>
+
+  <h2>取車要帶的證件</h2>
+  <div class="card">
+    <p style="margin:0;font-size:14.5px;line-height:1.8">IWS 愛旺租車要求取車人當場出示<strong>正本</strong>：香港國際駕照（IDP）、香港正式駕照、護照、入台證、以及信用卡，五樣缺一不可。他們也希望事先提供 IDP 封面與內頁的照片。</p>
+  </div>
+
+  <footer>
+    <b>這頁是快照。</b>訂單編號、確認碼與分帳明細不放在這裡，請向 Alfred 索取 Excel 檔。行程有更動會更新這一頁。<br><br>
+    最後更新 2026年8月4日。標示為「未定」的部分都還沒安排。
+  </footer>
+
+</div>
+</body>
+</html>
